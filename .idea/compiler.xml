@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="CompilerConfiguration">
+    <bytecodeTargetLevel>
+      <module name="io.pleo.buildSrc.main" target="1.8" />
+      <module name="io.pleo.buildSrc.test" target="1.8" />
+      <module name="io.pleo.pleo-antaeus-app.main" target="1.8" />
+      <module name="io.pleo.pleo-antaeus-app.test" target="1.8" />
+      <module name="io.pleo.pleo-antaeus-core.main" target="1.8" />
+      <module name="io.pleo.pleo-antaeus-core.test" target="1.8" />
+      <module name="io.pleo.pleo-antaeus-data.main" target="1.8" />
+      <module name="io.pleo.pleo-antaeus-data.test" target="1.8" />
+      <module name="io.pleo.pleo-antaeus-models.main" target="1.8" />
+      <module name="io.pleo.pleo-antaeus-models.test" target="1.8" />
+      <module name="io.pleo.pleo-antaeus-rest.main" target="1.8" />
+      <module name="io.pleo.pleo-antaeus-rest.test" target="1.8" />
+    </bytecodeTargetLevel>
+  </component>
+</project>
