@@ -5,9 +5,10 @@
 package io.pleo.antaeus.rest
 
 import io.javalin.Javalin
-import io.javalin.apibuilder.ApiBuilder.get
-import io.javalin.apibuilder.ApiBuilder.path
+import io.javalin.apibuilder.ApiBuilder.*
 import io.pleo.antaeus.core.exceptions.EntityNotFoundException
+import io.pleo.antaeus.core.exceptions.UnathorizedException
+import io.pleo.antaeus.core.services.BillingService
 import io.pleo.antaeus.core.services.CustomerService
 import io.pleo.antaeus.core.services.InvoiceService
 import mu.KotlinLogging
@@ -16,7 +17,8 @@ private val logger = KotlinLogging.logger {}
 
 class AntaeusRest (
     private val invoiceService: InvoiceService,
-    private val customerService: CustomerService
+    private val customerService: CustomerService,
+    private val billingService: BillingService
 ) : Runnable {
 
     override fun run() {
@@ -30,6 +32,9 @@ class AntaeusRest (
             // InvoiceNotFoundException: return 404 HTTP status code
             exception(EntityNotFoundException::class.java) { _, ctx ->
                 ctx.status(404)
+            }
+            exception(UnathorizedException::class.java) { _, ctx ->
+                ctx.status(401).json("Unauthorized")
             }
             // Unexpected exception: return HTTP 500
             exception(Exception::class.java) { e, _ ->
@@ -62,25 +67,31 @@ class AntaeusRest (
                           it.json(invoiceService.fetch(it.pathParam("id").toInt()))
                        }
 
-                       path(":id/status") {
-                           post() {
-                               it.json(invoiceService.update(it.pathParam("id").toInt()))
-                           }
-                       }
                        /*post(":id/status") {
                             it.json(invoiceService.update(it.pathParam("id").toInt()))
                        }*/
                    }
 
+                   path("billings") {
+                       post("charge") {
+                           billingService.checkBeforeCharge()
+                           it.status(200)
+                           /*try {
+                               it.json(billingService.getItem(it.formParam("currency").toString()))
+                           } catch(e: IllegalArgumentException) {
+                               it.status(400).json("invalid currency")
+                           }*/ /*finally {
+                               it.status(400).json("invalid currency")
+                           }*/
+                           //it.status(400).json("invalid currency")
+                           //it.json(invoiceService.updateStatus(it.pathParam("id").toInt()))
+                       }
+                   }
+
                    path("customers") {
                        // URL: /rest/v1/customers
                        get {
-                           val someObject = object {
-                               var number: Int = 0
-                               var hello: String = "world"
-                           }
-                           it.json(someObject)
-                           //it.json(customerService.fetchAll())
+                           it.json(customerService.fetchAll())
                        }
 
                        // URL: /rest/v1/customers/{:id}
@@ -90,6 +101,11 @@ class AntaeusRest (
                    }
                }
            }
+        }
+        app.before("rest/v1/billings/*") {
+            val token = it.header("Authorization")
+            if (token != "mySecretKey")
+                throw UnathorizedException()
         }
     }
 }

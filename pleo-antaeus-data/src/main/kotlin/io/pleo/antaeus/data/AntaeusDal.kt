@@ -13,6 +13,7 @@ import io.pleo.antaeus.models.Invoice
 import io.pleo.antaeus.models.InvoiceStatus
 import io.pleo.antaeus.models.Money
 import org.jetbrains.exposed.sql.*
+import org.jetbrains.exposed.sql.SqlExpressionBuilder.eq
 import org.jetbrains.exposed.sql.transactions.transaction
 
 class AntaeusDal(private val db: Database) {
@@ -48,6 +49,24 @@ class AntaeusDal(private val db: Database) {
         }
 
         return fetchInvoice(id!!)
+    }
+
+    fun fetchPendingInvoiceForCurrency(currency: Currency): List<Invoice>? {
+        return transaction(db) {
+            InvoiceTable
+                    .select {
+                        InvoiceTable.currency.eq(currency.toString()) and InvoiceTable.status.eq("PENDING")
+                    }
+                    .map { it.toInvoice() }
+        }
+    }
+
+    fun fetchInvoiceWithStatus(status: InvoiceStatus): List<Invoice>? {
+        return transaction(db) {
+            InvoiceTable
+                    .select {InvoiceTable.status.eq(status.toString())}
+                    .map { it.toInvoice() }
+        }
     }
 
     fun updateInvoiceStatus(id: Int, status: InvoiceStatus): Invoice? {
