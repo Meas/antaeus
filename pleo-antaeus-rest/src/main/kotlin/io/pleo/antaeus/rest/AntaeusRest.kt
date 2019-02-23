@@ -66,6 +66,11 @@ class AntaeusRest (
                    path("customers") {
                        // URL: /rest/v1/customers
                        get {
+                           /*val someObject = object {
+                               var number: Int = 0
+                               var hello: String = "world"
+                           }
+                           it.json(someObject)*/
                            it.json(customerService.fetchAll())
                        }
 
