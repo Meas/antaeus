@@ -2,11 +2,10 @@ package io.pleo.antaeus.core.services
 
 import io.pleo.antaeus.core.external.PaymentProvider
 import io.pleo.antaeus.models.Currency
+import io.pleo.antaeus.models.Invoice
 import io.pleo.antaeus.models.InvoiceStatus
 import io.pleo.antaeus.models.Timezones
-import java.text.SimpleDateFormat
-import java.time.LocalDateTime
-import java.time.format.DateTimeFormatter
+import java.time.DayOfWeek
 import java.util.*
 
 class BillingService(
@@ -38,24 +37,38 @@ class BillingService(
         Currency.values().forEach {
             val currentTimeForCurrency = this.getCurrentTimeForCurrency(it)
             println(currentTimeForCurrency)
-        }
-        invoiceService.fetchInvoiceWithStatus(InvoiceStatus.PAID)!!.map{
-            println(it)
+            if(this.isFirstHourOfFirstDay(currentTimeForCurrency))
+                invoiceService.fetchPendingForCurrency(it)!!.map{invoice ->
+                    this.chargeInvoice(invoice)
+                }
         }
         /*invoiceService.fetchPendingForCurrency(Currency.DKK)!!.map{
             println(it)
         }*/
     }
 
-    private fun checkErrorInvoices() {
-        return
+
+    private fun chargeInvoice(invoice: Invoice) {
+        println(invoice)
     }
 
+    private fun checkErrorInvoices() {
+        invoiceService.fetchForStatus(InvoiceStatus.ERROR)!!.map{
+            chargeInvoice(it)
+        }
+    }
+
+    //might abstract these 2 to CurrencyService
     private fun getCurrentTimeForCurrency(currency: Currency) : GregorianCalendar {
         return GregorianCalendar(TimeZone.getTimeZone(getTimezoneForCurrency(currency)))
     }
 
     private fun getTimezoneForCurrency(currency: Currency): String {
         return Timezones.valueOf(currency.toString()).value
+    }
+
+    private fun isFirstHourOfFirstDay(time: GregorianCalendar): Boolean {
+        return time.get(GregorianCalendar.HOUR_OF_DAY) == 0
+                /*&& time.get(GregorianCalendar.DAY_OF_MONTH) == 1*/
     }
 }

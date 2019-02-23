@@ -103,6 +103,7 @@ class AntaeusRest (
            }
         }
         app.before("rest/v1/billings/*") {
+            //might use fixed ip for validation or some other logic
             val token = it.header("Authorization")
             if (token != "mySecretKey")
                 throw UnathorizedException()

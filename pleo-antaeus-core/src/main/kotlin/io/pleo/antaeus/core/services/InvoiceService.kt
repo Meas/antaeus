@@ -23,7 +23,7 @@ class InvoiceService(private val dal: AntaeusDal) {
         return dal.fetchPendingInvoiceForCurrency(currency)
     }
 
-    fun fetchInvoiceWithStatus(status: InvoiceStatus): List<Invoice>? {
+    fun fetchForStatus(status: InvoiceStatus): List<Invoice>? {
         return dal.fetchInvoiceWithStatus(status)
     }
 
