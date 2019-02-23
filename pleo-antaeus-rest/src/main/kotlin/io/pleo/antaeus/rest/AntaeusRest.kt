@@ -62,6 +62,11 @@ class AntaeusRest (
                           it.json(invoiceService.fetch(it.pathParam("id").toInt()))
                        }
 
+                       path(":id/status") {
+                           post() {
+                               it.json(invoiceService.update(it.pathParam("id").toInt()))
+                           }
+                       }
                        /*post(":id/status") {
                             it.json(invoiceService.update(it.pathParam("id").toInt()))
                        }*/
