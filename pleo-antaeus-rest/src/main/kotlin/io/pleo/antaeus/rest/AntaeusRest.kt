@@ -61,17 +61,21 @@ class AntaeusRest (
                        get(":id") {
                           it.json(invoiceService.fetch(it.pathParam("id").toInt()))
                        }
+
+                       /*post(":id/status") {
+                            it.json(invoiceService.update(it.pathParam("id").toInt()))
+                       }*/
                    }
 
                    path("customers") {
                        // URL: /rest/v1/customers
                        get {
-                           /*val someObject = object {
+                           val someObject = object {
                                var number: Int = 0
                                var hello: String = "world"
                            }
-                           it.json(someObject)*/
-                           it.json(customerService.fetchAll())
+                           it.json(someObject)
+                           //it.json(customerService.fetchAll())
                        }
 
                        // URL: /rest/v1/customers/{:id}
