@@ -54,26 +54,36 @@ class AntaeusDal(private val db: Database) {
     fun fetchPendingInvoiceForCurrency(currency: Currency): List<Invoice>? {
         return transaction(db) {
             InvoiceTable
-                    .select {
-                        InvoiceTable.currency.eq(currency.toString()) and InvoiceTable.status.eq("PENDING")
-                    }
-                    .map { it.toInvoice() }
+                .select {
+                    InvoiceTable.currency.eq(currency.toString()) and InvoiceTable.status.eq("PENDING")
+                }
+                .map { it.toInvoice() }
         }
     }
 
-    fun fetchInvoiceWithStatus(status: InvoiceStatus): List<Invoice>? {
+    fun fetchInvoiceForStatus(status: InvoiceStatus): List<Invoice>? {
         return transaction(db) {
             InvoiceTable
-                    .select {InvoiceTable.status.eq(status.toString())}
-                    .map { it.toInvoice() }
+                .select {InvoiceTable.status.eq(status.toString())}
+                .map { it.toInvoice() }
+        }
+    }
+
+    fun fetchInvoiceForStatuses(statuses: List<InvoiceStatus>): List<Invoice>? {
+        return transaction(db) {
+            InvoiceTable
+                .select {InvoiceTable.status.inList(statuses.map { it.toString() }.toList())}
+                .map { it.toInvoice() }
         }
     }
 
     fun updateInvoiceStatus(id: Int, status: InvoiceStatus): Invoice? {
-        InvoiceTable
-            .update {
-                it[this.status] = status.toString()
-            }
+        transaction(db) {
+            InvoiceTable
+                .update({ InvoiceTable.id.eq(id) }) {
+                    it[this.status] = status.toString()
+                }
+        }
         return fetchInvoice(id)
     }
 
