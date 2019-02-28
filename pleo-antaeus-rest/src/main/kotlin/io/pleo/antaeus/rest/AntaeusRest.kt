@@ -66,25 +66,14 @@ class AntaeusRest (
                        get(":id") {
                           it.json(invoiceService.fetch(it.pathParam("id").toInt()))
                        }
-
-                       /*post(":id/status") {
-                            it.json(invoiceService.update(it.pathParam("id").toInt()))
-                       }*/
                    }
 
                    path("billings") {
+                       // Route for manually triggering charging of eligible invoices
+                       // URL: /rest/v1/billings/charge
                        post("charge") {
                            billingService.checkBeforeCharge()
                            it.status(200)
-                           /*try {
-                               it.json(billingService.getItem(it.formParam("currency").toString()))
-                           } catch(e: IllegalArgumentException) {
-                               it.status(400).json("invalid currency")
-                           }*/ /*finally {
-                               it.status(400).json("invalid currency")
-                           }*/
-                           //it.status(400).json("invalid currency")
-                           //it.json(invoiceService.updateStatus(it.pathParam("id").toInt()))
                        }
                    }
 

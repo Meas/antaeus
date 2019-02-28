@@ -42,9 +42,7 @@
   <component name="NewModuleRootManager" LANGUAGE_LEVEL="JDK_1_8">
     <output url="file://$MODULE_DIR$/../../buildSrc/out/production/classes" />
     <exclude-output />
-    <content url="file://$MODULE_DIR$/../../buildSrc/build/generated-sources/kotlin-dsl-plugins/kotlin">
-      <sourceFolder url="file://$MODULE_DIR$/../../buildSrc/build/generated-sources/kotlin-dsl-plugins/kotlin" isTestSource="false" />
-    </content>
+    <content url="file://$MODULE_DIR$/../../buildSrc/build/generated-sources/kotlin-dsl-plugins/kotlin" />
     <content url="file://$MODULE_DIR$/../../buildSrc/src/main">
       <sourceFolder url="file://$MODULE_DIR$/../../buildSrc/src/main/kotlin" isTestSource="false" />
     </content>

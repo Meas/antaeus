@@ -26,25 +26,9 @@ class BillingService(
 
     )
 
-    fun getItem(inputCurrency: String): Any {
-        return object {
-            val currency: Currency = Currency.valueOf(inputCurrency)
-        }
-    }
     fun checkBeforeCharge() {
         this.checkPendingInvoices()
         this.checkErrorInvoices()
-        /*val dateFormat = DateTimeFormatter.ofPattern("yyyy-MM-dd")
-        dateFormat.timeZone = TimeZone.getTimeZone("GMT")
-        val current = LocalDateTime.now()
-        println("Date is "+current.format(dateFormat))*/
-
-
-        /*val today: Calendar= Calendar.getInstance()*/
-        /*val firstDayOfMonth = calendar.getActualMinimum(Calendar.DATE)
-        calendar.set(Calendar.DATE, firstDayOfMonth)*/
-
-        /*println("Current Date and Time is: $calendar")*/
     }
 
     private fun checkPendingInvoices() {
@@ -71,7 +55,7 @@ class BillingService(
         } catch(e: NetworkException) {
             invoiceService.updateStatus(invoice.id, InvoiceStatus.ERROR_NETWORK_EXCEPTION)
         } catch(e: Exception) {
-            println(invoiceService.updateStatus(invoice.id, InvoiceStatus.ERROR_FATAL))
+            invoiceService.updateStatus(invoice.id, InvoiceStatus.ERROR_FATAL)
             logger.error(e) { "Internal server error for invoice $invoice" }
         }
     }
@@ -93,6 +77,6 @@ class BillingService(
 
     private fun isFirstHourOfFirstDay(time: GregorianCalendar): Boolean {
         return time.get(GregorianCalendar.HOUR_OF_DAY) == 0
-                /*&& time.get(GregorianCalendar.DAY_OF_MONTH) == 1*/
+                && time.get(GregorianCalendar.DAY_OF_MONTH) == 1
     }
 }
