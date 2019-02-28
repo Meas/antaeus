@@ -1,1 +1,1 @@
-/home/vagrant/Projects/antaeus/buildSrc/build/classes/kotlin/main/UtilsKt$dataLibs$1.class:/home/vagrant/Projects/antaeus/buildSrc/build/classes/kotlin/main/UtilsKt$kotlinProject$1.class:/home/vagrant/Projects/antaeus/buildSrc/build/classes/kotlin/main/UtilsKt.class
+C:\Projects\antaeus\buildSrc\build\classes\kotlin\main\UtilsKt$dataLibs$1.class;C:\Projects\antaeus\buildSrc\build\classes\kotlin\main\UtilsKt$kotlinProject$1.class;C:\Projects\antaeus\buildSrc\build\classes\kotlin\main\UtilsKt.class
