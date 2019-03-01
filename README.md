@@ -54,7 +54,7 @@ Also, my implementation of the Timezones model, as mentioned earlier, might be f
 
 ## More dear diary
 
-That’s what I’ve been up to in a nutshell dear diary. I’m sorry that it’s been this long since I wrote to you and I’ll try my best to do it more often. You might be getting a bit jealous when other Diaries get their notes and you have such a negligent mail friend.
+That’s what I’ve been up to in a nutshell dear diary. I’m sorry that it’s been this long since I wrote to you and I’ll try my best to do it more often. You might be getting a bit jealous when other Diaries get their notes and you have such a negligent pen pal.
 
 Love,
 
